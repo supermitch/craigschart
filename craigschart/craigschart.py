@@ -12,11 +12,20 @@ def main():
 
     soup = BeautifulSoup(html, 'lxml')
     print(soup.prettify())
+
+    print('Pages:\n\n')
     mydivs = soup.findAll('a', {'class': 'hdrlnk'})
     for t in mydivs:
-        print(t)
+        print(t['href'])
 
-    print('Hello, World.')
+    totalcount_span = soup.find('span', {'class': 'totalcount'})
+    total_count = int(totalcount_span.string)
+    print('Total result count: {}\n\n'.format(total_count))
+
+    print('Buttons:')
+    next_page = soup.findAll('a', {'class': 'button next'})
+    for t in next_page:
+        print(t['href'])
 
 if __name__ == '__main__':
     main()
