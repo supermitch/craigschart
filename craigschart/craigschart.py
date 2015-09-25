@@ -19,11 +19,11 @@ def main():
     soup = BeautifulSoup(html, 'lxml')
     print(soup.prettify())
 
-    print('Pages:\n\n')
+    all_links = []
     links = soup.findAll('a', {'class': 'hdrlnk'})
-    for link in links:
-        print(link['href'])
-    all_links = links
+    for i, link in enumerate(links, start=1):
+        print('{}. {}'.format(i, link['href']))
+        all_links.append(link['href'])
 
     totalcount_span = soup.find('span', {'class': 'totalcount'})
     total_count = int(totalcount_span.string)
@@ -33,10 +33,9 @@ def main():
         print('Querying records {}'.format(start))
         if start == 0:  # first page already done
             continue
+
         query = add_start(url, start)
-
         html = get_html(query)
-
         soup = BeautifulSoup(html, 'lxml')
 
         print('Pages:\n\n')
