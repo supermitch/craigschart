@@ -38,10 +38,8 @@ def main():
     total_count = int(totalcount_span.string)
     print('Total result count: {}\n\n'.format(total_count))
 
-    for start in range(0, total_count, 100):
-        print('Querying records {}'.format(start))
-        if start == 0:  # first page already done
-            continue
+    for start in range(100, total_count, 100):
+        print('Querying records starting at {}'.format(start))
 
         query = add_start(url, start)
         html = get_html(query)
