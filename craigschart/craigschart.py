@@ -19,7 +19,7 @@ def add_start(url, start):
 
 
 def main():
-    url = 'http://vancouver.craigslist.ca/search/cto?query=Expedition'
+    url = 'http://vancouver.craigslist.ca/srch/cto?query=Expedition'
     html = get_html(url)
 
     if not html:
@@ -31,7 +31,6 @@ def main():
     all_links = []
     links = soup.findAll('a', {'class': 'hdrlnk'})
     for i, link in enumerate(links, start=1):
-        print('{}. {}'.format(i, link['href']))
         all_links.append(link['href'])
 
     totalcount_span = soup.find('span', {'class': 'totalcount'})
@@ -45,11 +44,9 @@ def main():
         html = get_html(query)
         soup = BeautifulSoup(html, 'lxml')
 
-        print('Pages:\n\n')
         links = soup.findAll('a', {'class': 'hdrlnk'})
         for link in links:
-            print(link['href'])
-        all_links.append(links)
+            all_links.append(link['href'])
 
     print('Found {} results'.format(len(all_links)))
 
