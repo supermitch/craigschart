@@ -18,8 +18,7 @@ def add_start(url, start):
     return parts[0] + '?s={}'.format(start) + '&' + parts[1]
 
 
-def main():
-    url = 'http://vancouver.craigslist.ca/srch/cto?query=Expedition'
+def query_search_results(url):
     html = get_html(url)
 
     if not html:
@@ -48,7 +47,21 @@ def main():
         for link in links:
             all_links.append(link['href'])
 
+    return all_links
+
+
+def query_listing(url):
+    Listing = collections.namedtuple('Listing', 'id, url, cost, mileage, year')
+    listing = None
+    return listing
+
+
+def main():
+    url = 'http://vancouver.craigslist.ca/srch/cto?query=Expedition'
+    all_links = query_search_results(url)
     print('Found {} results'.format(len(all_links)))
+
+    listings = [query_listing(url) for url in all_links]
 
 
 if __name__ == '__main__':
