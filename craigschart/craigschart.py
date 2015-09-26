@@ -1,10 +1,16 @@
+import sys
+
 from bs4 import BeautifulSoup
 import requests
 
 
 def get_html(url):
     r = requests.get(url)
-    return r.text
+    if r.status_code == 200:
+        return r.text
+    else:
+        print('Request returned status code {}'.format(r.status_code))
+        return None
 
 
 def add_start(url, start):
@@ -15,6 +21,9 @@ def add_start(url, start):
 def main():
     url = 'http://vancouver.craigslist.ca/search/cto?query=Expedition'
     html = get_html(url)
+
+    if not html:
+        sys.exit('No content. Please try again.')
 
     soup = BeautifulSoup(html, 'lxml')
     print(soup.prettify())
