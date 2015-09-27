@@ -68,11 +68,14 @@ def query_listing(url):
 
 
 def main():
-    url = 'http://vancouver.craigslist.ca/srch/cto?query=Expedition'
-    all_links = query_search_results(url)
+    domain = 'http://vancouver.craigslist.ca/'
+    link = 'search/cto?query=Expedition'
+
+    all_links = query_search_results(domain + link)
     print('Found {} results'.format(len(all_links)))
 
-    listings = [query_listing(url) for url in all_links]
+    LIMIT = 5
+    listings = [query_listing(domain + link) for link in all_links[:LIMIT]]
 
 
 if __name__ == '__main__':
