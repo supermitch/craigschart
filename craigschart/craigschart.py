@@ -1,7 +1,11 @@
+import collections
 import sys
 
 from bs4 import BeautifulSoup
 import requests
+
+
+Listing = collections.namedtuple('Listing', 'id, url, cost, mileage, year')
 
 
 def get_html(url):
@@ -20,7 +24,6 @@ def add_start(url, start):
 
 def query_search_results(url):
     html = get_html(url)
-
     if not html:
         sys.exit('No content. Please try again.')
 
