@@ -54,7 +54,15 @@ def query_search_results(url):
 
 
 def query_listing(url):
-    Listing = collections.namedtuple('Listing', 'id, url, cost, mileage, year')
+    html = get_html(url)
+    if not html:
+        print('Listing has no content. Please try again.')
+        return None
+
+    soup = BeautifulSoup(html, 'lxml')
+    print(soup.prettify())
+    print('\n\n')
+
     listing = None
     return listing
 
