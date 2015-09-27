@@ -60,11 +60,11 @@ def query_listing(url):
         return None
 
     soup = BeautifulSoup(html, 'lxml')
-    print(soup.prettify())
-    print('\n\n')
-
-    listing = None
-    return listing
+    groups = soup.findAll('p', {'class': 'attrgroup'})
+    attribs = groups[1].findAll('span')
+    for attrib in attribs:
+        print(attrib.text)
+    return None
 
 
 def main():
