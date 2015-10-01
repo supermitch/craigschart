@@ -70,8 +70,8 @@ def query_listing(url):
         return None
 
     soup = BeautifulSoup(html, 'lxml')
-    result = {}
-    result['price'] = soup.find('span', {'class': 'price'}).txt
+    price = soup.find('span', {'class': 'price'}).text[1:]  # Remove '$'
+    result = {'price': float(price)}
 
     groups = soup.findAll('p', {'class': 'attrgroup'})
     attribs = groups[1].findAll('span')
