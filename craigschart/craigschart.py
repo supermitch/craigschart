@@ -60,14 +60,14 @@ def query_listing(url):
         return None
 
     soup = BeautifulSoup(html, 'lxml')
-    price = soup.find('span', {'class': 'price'})
-    price = price.text
+    price = soup.find('span', {'class': 'price'}).txt
 
     groups = soup.findAll('p', {'class': 'attrgroup'})
     attribs = groups[1].findAll('span')
     print('\n' + price)
     for attrib in attribs:
-        print(attrib.text)
+        label = attrib.text[:attrib.text.find(':')]  # Attrib, e.g. 'condition'
+        value = attrib.b.text  # e.g. 'good'
     return None
 
 
