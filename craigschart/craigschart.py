@@ -60,15 +60,16 @@ def query_listing(url):
         return None
 
     soup = BeautifulSoup(html, 'lxml')
-    price = soup.find('span', {'class': 'price'}).txt
+    result = {}
+    result['price'] = soup.find('span', {'class': 'price'}).txt
 
     groups = soup.findAll('p', {'class': 'attrgroup'})
     attribs = groups[1].findAll('span')
-    print('\n' + price)
     for attrib in attribs:
         label = attrib.text[:attrib.text.find(':')]  # Attrib, e.g. 'condition'
         value = attrib.b.text  # e.g. 'good'
-    return None
+        result[label] = value  # Add to our dictionary
+    return result
 
 
 def main():
@@ -78,8 +79,9 @@ def main():
     all_links = query_search_results(domain + link)
     print('Found {} results'.format(len(all_links)))
 
-    LIMIT = 5
-    listings = [query_listing(domain + link) for link in all_links[:LIMIT]]
+    LIMIT = 8
+    results = [query_listing(domain + link) for link in all_links[:LIMIT]]
+    print(results)
 
 
 if __name__ == '__main__':
