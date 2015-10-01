@@ -62,6 +62,17 @@ def validate_attribute(label, value):
     return label, value
 
 
+def validate_results(results):
+    validated = []
+    for result in results:
+        clean = {}
+        for k, v in result.items():
+            k, v = validate_attribute(k, v)
+            clean[k] = v
+        validated.append(clean)
+    return validated
+
+
 def query_listing(url):
     html = get_html(url)
     if not html:
@@ -87,6 +98,7 @@ def main():
 
     LIMIT = 8
     results = [query_listing(domain + link) for link in all_links[:LIMIT]]
+    results = validate_results(results)
     print(results)
 
 
