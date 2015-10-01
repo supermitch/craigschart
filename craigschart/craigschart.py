@@ -101,6 +101,16 @@ def main():
     results = validate_results(results)
     print(results)
 
+    # Plot price versus odometer
+    points = []
+    for result in results:
+        odo = result.get('odometer', 0)
+        price = result.get('price', 0)
+        points.append((odo, price))  # (x, y) point
+    points = sorted(points, key=lambda t: t[0])
+    print(points)
+
+
 
 if __name__ == '__main__':
     main()
