@@ -28,7 +28,6 @@ def query_search_results(url):
         sys.exit('No content. Please try again.')
 
     soup = BeautifulSoup(html, 'lxml')
-    #A print(soup.prettify())
 
     all_links = []
     links = soup.findAll('a', {'class': 'hdrlnk'})
@@ -74,12 +73,8 @@ def query_listing(url):
     result = {'price': float(price)}
 
     groups = soup.findAll('p', {'class': 'attrgroup'})
-    attribs = groups[1].findAll('span')
-    for attrib in attribs:
-        label = attrib.text[:attrib.text.find(':')].lower()  # Attrib, e.g. 'condition'
-        value = attrib.b.text.lower()  # e.g. 'good'
-        label, value = validate_attribute(label, value)  # TODO: Do this elsewhere
-        result[label] = value  # Add to our dictionary
+    spans = groups[1].findAll('span')
+    result.update({span.text[:span.text.find(':')]: span.b.text for span in spans})
     return result
 
 
