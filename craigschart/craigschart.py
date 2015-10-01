@@ -53,6 +53,16 @@ def query_search_results(url):
     return all_links
 
 
+def validate_attribute(label, value):
+    if label == 'odometer':
+        try:
+            return label, int(value)
+        except (TypeError, ValueError):  # None or bad odometer
+            logging.info('Validation error: odometer value is {}'.format(value))
+            return label, 1
+    return label, value
+
+
 def query_listing(url):
     html = get_html(url)
     if not html:
@@ -66,8 +76,9 @@ def query_listing(url):
     groups = soup.findAll('p', {'class': 'attrgroup'})
     attribs = groups[1].findAll('span')
     for attrib in attribs:
-        label = attrib.text[:attrib.text.find(':')]  # Attrib, e.g. 'condition'
-        value = attrib.b.text  # e.g. 'good'
+        label = attrib.text[:attrib.text.find(':')].lower()  # Attrib, e.g. 'condition'
+        value = attrib.b.text.lower()  # e.g. 'good'
+        label, value = validate_attribute(label, value)  # TODO: Do this elsewhere
         result[label] = value  # Add to our dictionary
     return result
 
