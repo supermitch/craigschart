@@ -2,6 +2,8 @@ import collections
 import sys
 
 from bs4 import BeautifulSoup
+import plotly.plotly as py
+from plotly.graph_objs import *
 import requests
 
 
@@ -89,6 +91,19 @@ def query_listing(url):
     return result
 
 
+def graph(points):
+
+    trace0 = Scatter(
+        x=[x for x, _ in points],
+        y=[y for _, y in points],
+        mode='markers'
+    )
+    data = Data([trace0])
+    plot_url = py.plot(data, filename='line-scatter')
+    print(plot_url)
+    return plot_url
+
+
 def main():
     domain = 'http://vancouver.craigslist.ca/'
     link = 'search/cto?query=Expedition'
@@ -108,8 +123,7 @@ def main():
         price = result.get('price', 0)
         points.append((odo, price))  # (x, y) point
     points = sorted(points, key=lambda t: t[0])
-    print(points)
-
+    url = graph(points)
 
 
 if __name__ == '__main__':
