@@ -124,6 +124,7 @@ def main():
         points.append((odo, price))  # (x, y) point
     points = sorted(points, key=lambda t: t[0])
     url = graph(points)
+    print(url)
 
 
 if __name__ == '__main__':
