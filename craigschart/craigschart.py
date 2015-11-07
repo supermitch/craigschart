@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+import argparse
 import collections
 import sys
 
@@ -8,6 +11,18 @@ import graph
 
 
 Listing = collections.namedtuple('Listing', 'id, url, cost, mileage, year')
+
+
+def setup_args():
+    parser = argparse.ArgumentParser(description='Graph Craigslist Results')
+    parser.add_argument('-c', '--category', nargs='?', default='cto',
+                        help='Category to search, e.g. cto')
+    parser.add_argument('-t', '--terms', nargs='*', default='Ford Expedition',
+                        help='Search terms, separated by spaces, e.g. Ford Expedition')
+    args = parser.parse_args()
+    if isinstance(args.terms, str):
+        args.terms = [args.terms]  # Convert a single term to a list
+    return args
 
 
 def get_html(url):
@@ -92,16 +107,23 @@ def query_listing(url):
 
 
 def main():
-    domain = 'http://vancouver.craigslist.ca/'
-    link = 'search/cto?query=Expedition'
+    args = setup_args()
 
-    all_links = query_search_results(domain + link)
+    print(args)
+    domain = 'http://vancouver.craigslist.ca/'
+    link = 'search/{}?query={}'.format(args.category, ' '.join(args.terms))
+    query_url = domain + link
+    print('Searching: {}'.format(query_url))
+
+
+    all_links = query_search_results(query_url)
     print('Found {} results'.format(len(all_links)))
 
     LIMIT = 8
-    results = [query_listing(domain + link) for link in all_links[:LIMIT]]
+    results = [query_listing(query_url) for link in all_links[:LIMIT]]
     results = validate_results(results)
-    print(results)
+
+    print('RESULTS\n-------\n{}'.format(results))
 
     # Plot price versus odometer
     points = []
