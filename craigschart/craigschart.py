@@ -26,7 +26,11 @@ def setup_args():
 
 
 def get_html(url):
-    r = requests.get(url, timeout=5)
+    user_agent = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
+    headers = {
+        'User-Agent': user_agent
+    }
+    r = requests.get(url, headers=headers, timeout=5)
     if r.status_code == 200:
         return r.text
     else:
@@ -92,6 +96,7 @@ def validate_results(results):
 
 def query_listing(url):
     html = get_html(url)
+    print('LISTING HTML\n{}'.format(html))
     if not html:
         print('Listing has no content. Please try again.')
         return None
@@ -119,8 +124,9 @@ def main():
     all_links = query_search_results(query_url)
     print('Found {} results'.format(len(all_links)))
 
-    LIMIT = 8
-    results = [query_listing(query_url) for link in all_links[:LIMIT]]
+    LIMIT = 19
+    print('All_links: {}'.format(all_links))
+    results = [query_listing(domain + link) for link in all_links[:LIMIT]]
     results = validate_results(results)
 
     print('RESULTS\n-------\n{}'.format(results))
