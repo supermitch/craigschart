@@ -124,7 +124,7 @@ def main():
     all_links = query_search_results(query_url)
     print('Found {} results'.format(len(all_links)))
 
-    LIMIT = 19
+    LIMIT = 1
     print('All_links: {}'.format(all_links))
     results = [query_listing(domain + link) for link in all_links[:LIMIT]]
     results = validate_results(results)
@@ -138,7 +138,7 @@ def main():
         price = result.get('price', 0)
         points.append((odo, price))  # (x, y) point
     points = sorted(points, key=lambda t: t[0])
-    url = graph.graph(points)
+    url = graph.graph(points, args.category, args.terms)
     print('Graph generated at: {}'.format(url))
 
 

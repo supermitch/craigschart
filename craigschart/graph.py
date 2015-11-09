@@ -2,7 +2,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 
 
-def graph(points, search_string=""):
+def graph(points, category='', search_string=''):
     """ Generate Plotly graph and return URL. """
     data = [go.Scatter(
         x=[x for x, _ in points],
@@ -10,7 +10,7 @@ def graph(points, search_string=""):
         mode='markers'
     )]
 
-    layout = go.Layout(title="Results for '{}'".format(search_string),
+    layout = go.Layout(title="Results for Category {} with Query '{}'".format(category, ' '.join(search_string)),
                        xaxis={'title': 'Odometer (km)'},
                        yaxis={'title': 'Price ($)'},
     )
