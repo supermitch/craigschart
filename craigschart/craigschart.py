@@ -124,7 +124,7 @@ def main():
     all_links = query_search_results(query_url)
     print('Found {} results'.format(len(all_links)))
 
-    LIMIT = 1
+    LIMIT = 10
     print('All_links: {}'.format(all_links))
     results = [query_listing(domain + link) for link in all_links[:LIMIT]]
     results = validate_results(results)

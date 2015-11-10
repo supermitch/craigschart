@@ -8,7 +8,7 @@ def graph(points, category='', search_string=''):
         x=[x for x, _ in points],
         y=[y for _, y in points],
         mode='markers+text',
-        text=['Text A', 'Text B', 'Text C'],
+        text=['<a href="http://www.strava.com">Text A</a>', 'Text B', 'Text C'],
         textposition='top',
     )]
 
