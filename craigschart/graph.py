@@ -7,7 +7,9 @@ def graph(points, category='', search_string=''):
     data = [go.Scatter(
         x=[x for x, _ in points],
         y=[y for _, y in points],
-        mode='markers'
+        mode='markers+text',
+        text=['Text A', 'Text B', 'Text C'],
+        textposition='top',
     )]
 
     layout = go.Layout(title="Results for Category {} with Query '{}'".format(category, ' '.join(search_string)),
